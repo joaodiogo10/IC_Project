@@ -7,7 +7,8 @@ float roundoff(float value, unsigned char prec);
 
 void writeResults(std::string filePath, std::vector<std::map<float,int>> samplesMap, std::vector<double> entropies);
 
-std::string filePath = "audioSamples/sample02.wav";
+u_char precision = 2;
+std::string filePath = "audioSamples/sample07.wav";
 std::string resultFile = "results.txt";
 
 int main(int agrc, char* agrv[]) {
@@ -18,22 +19,22 @@ int main(int agrc, char* agrv[]) {
     int numChannels = audioFile.getNumChannels();
     int numSamples = audioFile.getNumSamplesPerChannel();
 
-    //array of maps contains samples of each channels + average of the channels (samplesMap[numChannels])
+    //array of maps contains sample count of each channels + average of the channels (samplesMap[numChannels])
     std::vector<std::map<float,int>> samplesMap;
     samplesMap.resize(numChannels+1);
 
     float totalSamples; 
-    //read samples from all channels and calculate the average of the channels
+    //read sample count from all channels and calculate the average of the channels
     for(int i = 0; i < numSamples; i++)
     {  
         totalSamples = 0;
         for(int j = 0; j < numChannels; j++)
         {
-            float value = roundoff(audioFile.samples[j][i], 2);
+            float value = roundoff(audioFile.samples[j][i], precision);
             totalSamples += value;
             samplesMap[j][value]++;
         }
-        samplesMap[numChannels][roundoff(totalSamples/numChannels, 2)]++;
+        samplesMap[numChannels][roundoff(totalSamples/numChannels, precision)]++;
     }
 
 
