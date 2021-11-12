@@ -8,13 +8,25 @@ float roundoff(float value, unsigned char prec);
 void writeResults(std::string filePath, std::vector<std::map<float,int>> samplesMap, std::vector<double> entropies);
 
 u_char precision = 2;
-std::string filePath = "audioSamples/sample07.wav";
-std::string resultFile = "results.txt";
 
-int main(int agrc, char* agrv[]) {
+int main(int argc, char* agrv[]) {
+
+    //validate input
+    if(argc != 2) {
+        std::cout << "Usage: audioEntropy <audioFilePath>" << std::endl;
+        return -1;
+    }
+    
+    std::string filePath = agrv[1];
+    std::string resultFile = "result.txt";
 
     AudioFile<double> audioFile;
-    audioFile.load(filePath);
+    bool result = audioFile.load(filePath);
+    if(!result)
+    {
+        std::cout << "ERROR: Unable to read audio file" << std::endl;
+        return -1;
+    }
 
     int numChannels = audioFile.getNumChannels();
     int numSamples = audioFile.getNumSamplesPerChannel();
