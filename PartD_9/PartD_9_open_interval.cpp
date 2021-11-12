@@ -1,14 +1,7 @@
 #include "AudioFile/AudioFile.h"
 #include <math.h>
 
-/*
-    IC
-    PartD
-    9.Implement a program to reduce the number of bits used
-    to represent each audio sample (uniform scalar quantization).
 
-    João Ferreira 99305
-*/
 int main(int argc, char * argv[])
 {
 
@@ -40,24 +33,17 @@ int main(int argc, char * argv[])
     //new parameters
     int newBitDepth = bitDepth - reduceAmount;
     int newLevels = std::pow(2,newBitDepth);
-    double newDelta = (maxValue-minValue)/( (float) newLevels - 1);
+    double newDelta = (maxValue-minValue)/( (float) newLevels);
 
     //calculate new amplitude level for each sample, according to new bit depth
     for(int i = 0; i < numChannels; i++)
     {  
         for(int j = 0; j < numSamples; j++)
         {
-            if( audioFile.samples[i][j] == 1)
-                printf("1\n");
-            if( audioFile.samples[i][j] == -1)
-                printf("-1\n");
-            // somar 1 para evitar problemas na representação de numeros em complemento para 2
-            double sampleWithOffset = audioFile.samples[i][j] + 1;
-            int sampleLevel = ((int) (sampleWithOffset/delta)) >> reduceAmount;
+            int sampleLevel = ((int) ((audioFile.samples[i][j])/delta)) >> reduceAmount;
             double sampleValue = newDelta * sampleLevel;
 
-            // subtrair 1 para compensar
-            audioFile.samples[i][j] = sampleValue - 1;
+            audioFile.samples[i][j] = sampleValue;
         }
     }
     audioFile.save("result.wav");
