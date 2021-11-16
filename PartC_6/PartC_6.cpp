@@ -37,7 +37,7 @@ int main(int argc, char* agrv[]) {
 
     //initialize maps containing sample count at 0
     double minAmplitudeInterval = 1/pow(10,precision);
-    for(int j = 0; j < numChannels; j++)
+    for(int j = 0; j < numChannels + 1; j++)
     {
         for(int i = 0; i <= 1 * pow(10,precision); i++) {
             samplesMap[j][i * minAmplitudeInterval] = 0;
