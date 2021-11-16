@@ -1,0 +1,13 @@
+./audioEntropy audioSamples/sample01.wav results/sample01.txt;
+echo -e "\n";
+./audioEntropy audioSamples/sample02.wav results/sample02.txt;
+echo -e "\n";
+./audioEntropy audioSamples/sample03.wav results/sample03.txt;
+echo -e "\n";
+./audioEntropy audioSamples/sample04.wav results/sample04.txt;
+echo -e "\n";
+./audioEntropy audioSamples/sample05.wav results/sample05.txt;
+echo -e "\n";
+./audioEntropy audioSamples/sample06.wav results/sample06.txt;
+echo -e "\n";
+./audioEntropy audioSamples/sample07.wav results/sample07.txt;

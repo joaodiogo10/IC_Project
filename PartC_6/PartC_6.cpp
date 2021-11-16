@@ -12,13 +12,13 @@ u_char precision = 2;
 int main(int argc, char* agrv[]) {
 
     //validate input
-    if(argc != 2) {
-        std::cout << "Usage: audioEntropy <audioFilePath>" << std::endl;
+    if(argc != 3) {
+        std::cout << "Usage: audioEntropy <audioFilePath> <resultFilePath>" << std::endl;
         return -1;
     }
     
     std::string filePath = agrv[1];
-    std::string resultFile = "result.txt";
+    std::string resultFile = agrv[2];
 
     AudioFile<double> audioFile;
     bool result = audioFile.load(filePath);
@@ -83,6 +83,8 @@ int main(int argc, char* agrv[]) {
                 entropies[i] += - (*itr).second * log2((*itr).second);
         }
     }
+
+    std::cout << "--------" << filePath << "--------" << std::endl;
     audioFile.printSummary();
 
     for(int i = 0; i < numChannels; i++)
@@ -91,7 +93,7 @@ int main(int argc, char* agrv[]) {
     std::cout << "Entropy of Average(Mono): " << entropies[numChannels] << std::endl;
 
     writeResults(resultFile, samplesMap, entropies);
-    writeMatlabVectorFiles(samplesMap);
+    //writeMatlabVectorFiles(samplesMap);
 
     return 0;
 }
