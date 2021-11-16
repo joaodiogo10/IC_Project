@@ -4,8 +4,8 @@
 #include <fstream>
 
 float roundoff(float value, unsigned char prec);
-
-void writeResults(std::string filePath, std::vector<std::map<float,int>> samplesMap, std::vector<double> entropies);
+void writeResults(const std::string filePath, const std::vector<std::map<float,int>> samplesMap, const std::vector<double> entropies);
+void writeMatlabVectorFiles(const std::vector<std::map<float,int>> samplesMap);
 
 u_char precision = 2;
 
@@ -31,9 +31,19 @@ int main(int argc, char* agrv[]) {
     int numChannels = audioFile.getNumChannels();
     int numSamples = audioFile.getNumSamplesPerChannel();
 
-    //array of maps contains sample count of each channels + average of the channels (samplesMap[numChannels])
+    //array of maps containing sample count of each channels + average of the channels (samplesMap[numChannels])
     std::vector<std::map<float,int>> samplesMap;
     samplesMap.resize(numChannels+1);
+
+    //initialize maps containing sample count at 0
+    double minAmplitudeInterval = 1/pow(10,precision);
+    for(int j = 0; j < numChannels; j++)
+    {
+        for(int i = 0; i <= 1 * pow(10,precision); i++) {
+            samplesMap[j][i * minAmplitudeInterval] = 0;
+            samplesMap[j][-i * minAmplitudeInterval] = 0;
+        }
+    }
 
     float totalSamples; 
     //read sample count from all channels and calculate the average of the channels
@@ -73,15 +83,15 @@ int main(int argc, char* agrv[]) {
                 entropies[i] += - (*itr).second * log2((*itr).second);
         }
     }
-    
-    writeResults(resultFile, samplesMap, entropies);
+    audioFile.printSummary();
 
     for(int i = 0; i < numChannels; i++)
         std::cout << "Entropy of channel "<< i + 1 << ": " << entropies[i] << std::endl;
   
     std::cout << "Entropy of Average(Mono): " << entropies[numChannels] << std::endl;
 
-    audioFile.printSummary();
+    writeResults(resultFile, samplesMap, entropies);
+    writeMatlabVectorFiles(samplesMap);
 
     return 0;
 }
@@ -120,4 +130,40 @@ void writeResults(std::string filePath, std::vector<std::map<float,int>> samples
     fileOut << "\nEntropy: " << entropies[samplesMap.size()-1] << std::endl;
     
     fileOut.close();
+}
+
+
+void writeMatlabVectorFiles(const std::vector<std::map<float,int>> samplesMap){
+    const std::map<float,int> channel1 = samplesMap[0];
+    const std::map<float,int> channel2 = samplesMap[1];
+    const std::map<float,int> monoChannel =  samplesMap[2];
+
+    std::ofstream xAxisFile("matlab/xAxis.txt");
+    std::ofstream channel1File("matlab/channel1.txt");
+    std::ofstream channel2File("matlab/channel2.txt");
+    std::ofstream monoChannelFile("matlab/monoChannel.txt");
+
+    //write xAxisFile (amplitude values)
+    for(auto itr = channel1.begin(); itr != channel1.end(); itr++) {
+        xAxisFile << (*itr).first << std::endl;        
+    }
+
+    //write channel1File (amplitude values)
+    for(auto itr = channel1.begin(); itr != channel1.end(); itr++) {
+        channel1File << (*itr).second << std::endl;        
+    }
+
+    //write channel2File (amplitude values)
+    for(auto itr = channel2.begin(); itr != channel2.end(); itr++) {
+        channel2File << (*itr).second << std::endl;        
+    }
+
+    //write monoChannelFile (amplitude values)
+    for(auto itr = monoChannel.begin(); itr != monoChannel.end(); itr++) {
+        monoChannelFile << (*itr).second << std::endl;        
+    }
+    xAxisFile.close();
+    channel1File.close();
+    channel2File.close();
+    monoChannelFile.close();
 }
