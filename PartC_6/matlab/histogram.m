@@ -26,7 +26,6 @@ function e = plotResult(dir,fig)
     figure(fig);
     plot(x, channel1, 'b', x, channel2, 'r', x, mono, 'g');
     legend("Channel 1", "Channel 2", "mono")
-    title("Channel1");
     xlabel("Amplitude");
     grid on;
 end

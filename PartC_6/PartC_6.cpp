@@ -10,7 +10,6 @@ void writeMatlabVectorFiles(const std::vector<std::map<float,int>> samplesMap);
 u_char precision = 2;
 
 int main(int argc, char* agrv[]) {
-
     //validate input
     if(argc != 3) {
         std::cout << "Usage: audioEntropy <audioFilePath> <resultFilePath>" << std::endl;
@@ -93,7 +92,7 @@ int main(int argc, char* agrv[]) {
     std::cout << "Entropy of Average(Mono): " << entropies[numChannels] << std::endl;
 
     writeResults(resultFile, samplesMap, entropies);
-    //writeMatlabVectorFiles(samplesMap);
+    writeMatlabVectorFiles(samplesMap);
 
     return 0;
 }
