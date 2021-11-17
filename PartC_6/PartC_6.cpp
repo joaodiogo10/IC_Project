@@ -7,7 +7,7 @@ float roundoff(float value, unsigned char prec);
 void writeResults(const std::string filePath, const std::vector<std::map<float,int>> samplesMap, const std::vector<double> entropies);
 void writeMatlabVectorFiles(const std::vector<std::map<float,int>> samplesMap);
 
-u_char precision = 2;
+u_char precision = 3;
 
 int main(int argc, char* agrv[]) {
 
@@ -93,7 +93,7 @@ int main(int argc, char* agrv[]) {
     std::cout << "Entropy of Average(Mono): " << entropies[numChannels] << std::endl;
 
     writeResults(resultFile, samplesMap, entropies);
-    //writeMatlabVectorFiles(samplesMap);
+    writeMatlabVectorFiles(samplesMap);
 
     return 0;
 }
