@@ -10,7 +10,6 @@ void writeMatlabVectorFiles(const std::vector<std::map<float,int>> samplesMap);
 u_char precision = 3;
 
 int main(int argc, char* agrv[]) {
-
     //validate input
     if(argc != 3) {
         std::cout << "Usage: audioEntropy <audioFilePath> <resultFilePath>" << std::endl;
