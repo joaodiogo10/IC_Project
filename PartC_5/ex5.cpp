@@ -14,27 +14,27 @@ int main(int argc, char *argv[]) {
     map<char, float> probMap;
 
     ifstream f(argv[1]);
-    int count;
+    int count = 0;
     char myText;
+    float enthropy;
     while (f.get(myText)) {
         char val;
         f >> val;
-        histogram[val]++;
-        count++;
+        if(isalpha(val)){
+            histogram[val]++;
+            count++;
+        }
     }
+
     for (auto &a : histogram) {
         cout << a.first << ": ";
         cout << histogram[a.first];
+        probMap[a.first] = (((float)histogram[a.first]) / count) * 100;
+        cout << "    prob " << probMap[a.first] << " %";
+        if(probMap[a.first] != 0){
+            enthropy += probMap[a.first] * log2(probMap[a.first]);
+        }
         cout << endl;
     }
-
-    float enthropy;
-    for(auto &x : histogram){
-        probMap[x.first] = ((float)histogram[x.first]) / count;
-        cout << "prob " << probMap[x.first] << "\n";
-        if(probMap[x.first] != 0){
-            enthropy += probMap[x.first] * log2(probMap[x.first]);
-            enthropy = enthropy * (-1);
-        }
-    }
+    cout << "enthropy: " << enthropy << endl;
 }
