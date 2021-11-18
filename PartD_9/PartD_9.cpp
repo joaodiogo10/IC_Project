@@ -47,10 +47,6 @@ int main(int argc, char * argv[])
     {  
         for(int j = 0; j < numSamples; j++)
         {
-            if( audioFile.samples[i][j] == 1)
-                printf("1\n");
-            if( audioFile.samples[i][j] == -1)
-                printf("-1\n");
             // somar 1 para evitar problemas na representação de numeros em complemento para 2
             double sampleWithOffset = audioFile.samples[i][j] + 1;
             int sampleLevel = ((int) (sampleWithOffset/delta)) >> reduceAmount;
