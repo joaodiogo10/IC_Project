@@ -111,26 +111,14 @@ int main(int argc, char **argv)
     std::cout << "Blue entropy"
               << ": " << -entropyBlue << '\n';
 
-    std::cout << "Blue prob total"
-              << ": " << probtotalBlue << '\n';
-
     std::cout << "Green entropy"
               << ": " << -entropyGreen << '\n';
-
-    std::cout << "Green prob total"
-              << ": " << probtotalGreen << '\n';
 
     std::cout << "Red entropy"
               << ": " << -entropyRed << '\n';
 
-    std::cout << "Red prob total"
-              << ": " << probtotalRed << '\n';
-
     std::cout << "Grey entropy"
               << ": " << -entropyGrey << '\n';
-
-    std::cout << "Grey prob total"
-              << ": " << probtotalGrey << '\n';
 
     imshow("Source image", srcColors);
     imshow("calcHist Demo", histImage);
