@@ -1,82 +1,32 @@
-#include <opencv2/opencv.hpp>
-#include <iostream>
-#include <sstream>
+#include "AudioFile/AudioFile.h"
+#include <math.h>
 
-using namespace std;
-using namespace cv;
+std::string filePathOriginal = "sample04.wav";
+std::string filePathReduced = "result.wav";
 
-Mat &ScanImageAndReduceC(Mat &I, const uchar *table);
+int main(int argc, char * argv[]){
+    AudioFile<double> audioFile;
+    audioFile.load(filePathOriginal);
 
-int main(int argc, char *argv[])
-{
-    if (argc < 4)
-    {
-        cout << "Not enough parameters" << endl;
-        return -1;
-    }
+    AudioFile<double> reducedAudio;
+    reducedAudio.load(filePathReduced);
 
-    Mat I, J;
-    if (argc == 5 && !strcmp(argv[3], "G"))
-        I = imread(argv[1], IMREAD_GRAYSCALE);
-    else
-        I = imread(argv[1], IMREAD_COLOR);
+    int numChannels = audioFile.getNumChannels();
+    int numSamples = audioFile.getNumSamplesPerChannel();
+    int bitDepth = audioFile.getBitDepth();
+    audioFile.printSummary();
 
-    if (I.empty())
-    {
-        cout << "The image" << argv[1] << " could not be loaded." << endl;
-        return -1;
-    }
+    int sum = 0;
 
-    //! [dividewith]
-    int divideWith = 0; // convert our input string to number - C++ style
-    stringstream s;
-    s << argv[3];
-    s >> divideWith;
-
-    if (!s || !divideWith)
-    {
-        cout << "Invalid number entered for dividing. " << endl;
-        return -1;
-    }
-
-    uchar table[256];
-    for (int i = 0; i < 256; ++i)
-        table[i] = (uchar)(divideWith * (i / divideWith));
-    //! [dividewith]
-
-    cv::Mat clone_i = I.clone();
-    J = ScanImageAndReduceC(clone_i, table);
-
-    imwrite(argv[2], J);
-
-    return 0;
-}
-
-Mat &ScanImageAndReduceC(Mat &I, const uchar *const table)
-{
-    // accept only char type matrices
-    CV_Assert(I.depth() == CV_8U);
-
-    int channels = I.channels();
-
-    int nRows = I.rows;
-    int nCols = I.cols * channels;
-
-    if (I.isContinuous())
-    {
-        nCols *= nRows;
-        nRows = 1;
-    }
-
-    int i, j;
-    uchar *p;
-    for (i = 0; i < nRows; ++i)
-    {
-        p = I.ptr<uchar>(i);
-        for (j = 0; j < nCols; ++j)
-        {
-            p[j] = table[p[j]];
+    for(int i = 0; i < numChannels; i++){
+        for(int j = 0; j < numSamples; j++){
+            sum += std::pow(audioFile.samples[i][j] - reducedAudio.samples[i][j], 2);
         }
     }
-    return I;
+
+    double MSE = (double)sum/((double)numChannels * (double)numSamples);
+
+    int MAX = std::pow(2,bitDepth * 16) - 1;
+    float PSNR = 10* std::log10(std::pow(MAX,2)/MSE);
+    std::cout << PSNR << std::endl;
 }
