@@ -87,5 +87,5 @@ int main(int argc, char *argv[])
     MSE = sum/(nRows*nCols);
     MAX = std::pow(2,imageOriginalGrey.elemSize1() * 8) - 1;
     PSNR = 10* std::log10(std::pow(MAX,2)/MSE);
-    std::cout << "PSNR greyscale:" << PSNR << std::endl;
+    std::cout << "PSNR grayscale:" << PSNR << std::endl;
 }
