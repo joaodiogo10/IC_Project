@@ -7,8 +7,11 @@ cd ./build ;
 
 for img in $images
 do
-	./ex10 "../imageSamples/${img}" "../results/${img}_32.jpg" 32;
-	./ex10 "../imageSamples/${img}" "../results/${img}_64.jpg" 64;
-	./ex10 "../imageSamples/${img}" "../results/${img}_128.jpg" 128;
+	tmp=`echo ${img} | cut -d '.' -f 1`;
+   	format=`echo ${img} | cut -d '.' -f 2`;
+ 	
+	./ex10 "../imageSamples/${img}" "../results/${tmp}_32.${format}" 32;
+	./ex10 "../imageSamples/${img}" "../results/${tmp}_64.${format}" 64;
+	./ex10 "../imageSamples/${img}" "../results/${tmp}_128.${format}" 128;
 done
 
