@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     }
 
     const uchar *pOriginal, *pReduced;
-    int sum = 0;
+    int64_t sum = 0;
     for(int i = 0; i < nRows; i++)
     {
         pOriginal = imageOriginal.ptr<uchar>(i);
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     int MAX = std::pow(2,imageOriginal.elemSize1() * 8) - 1;
     float PSNR = 10* std::log10(std::pow(MAX,2)/MSE);
-    std::cout << PSNR << std::endl;
+    std::cout << "PSNR: "<< PSNR << std::endl;
 
     /* Grey Scale */
     channels = imageOriginalGrey.channels();
@@ -87,5 +87,5 @@ int main(int argc, char *argv[])
     MSE = sum/(nRows*nCols);
     MAX = std::pow(2,imageOriginalGrey.elemSize1() * 8) - 1;
     PSNR = 10* std::log10(std::pow(MAX,2)/MSE);
-    std::cout << PSNR << std::endl;
+    std::cout << "PSNR greyscale:" << PSNR << std::endl;
 }
