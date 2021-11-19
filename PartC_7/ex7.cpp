@@ -66,9 +66,9 @@ int main(int argc, char **argv)
              Scalar(128, 128, 128), 2, 8, 0);
     }
 
-    float entropyBlue, entropyGreen, entropyRed, entropyGrey;
+    double entropyBlue, entropyGreen, entropyRed, entropyGrey;
     float probtotalBlue = 0, probtotalGreen = 0, probtotalRed = 0, probtotalGrey = 0;
-    map<int, float> probMapBlue, probMapGreen, probMapRed, probMapGrey;
+    map<int, double> probMapBlue, probMapGreen, probMapRed, probMapGrey;
     float totalBlue = 0, totalGreen = 0, totalRed = 0, totalGrey = 0;
 
     for (int i = 0; i < histSize; i++)
