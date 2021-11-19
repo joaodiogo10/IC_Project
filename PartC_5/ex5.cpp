@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
         probMap[a.first] = (((float)histogram[a.first]) / count) * 100;
         cout << "    prob " << probMap[a.first] << " %";
         if(probMap[a.first] != 0){
-            enthropy += probMap[a.first] * log2(probMap[a.first]);
+            enthropy -= probMap[a.first]/100 * log2(probMap[a.first]/100);
         }
         cout << endl;
     }
