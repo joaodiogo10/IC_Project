@@ -27,6 +27,7 @@ int main(int argc, char * argv[]){
     double MSE = (double)sum/((double)numChannels * (double)numSamples);
 
     int MAX = std::pow(2,bitDepth * 16) - 1;
+    std::cout << "Maximum per Sample Absolute Error: " << MAX << std::endl;
     float PSNR = 10* std::log10(std::pow(MAX,2)/MSE);
-    std::cout << PSNR << std::endl;
+    std::cout << "Peak Signal-to-Noise Ratio: " << PSNR << std::endl;
 }
