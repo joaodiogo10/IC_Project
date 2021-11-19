@@ -10,6 +10,8 @@ do
 	tmp=`echo ${img} | cut -d '.' -f 1`;
    	format=`echo ${img} | cut -d '.' -f 2`;
  	
+	./ex10 "../imageSamples/${img}" "../results/${tmp}_4.${format}" 4;
+	./ex10 "../imageSamples/${img}" "../results/${tmp}_16.${format}" 16;
 	./ex10 "../imageSamples/${img}" "../results/${tmp}_32.${format}" 32;
 	./ex10 "../imageSamples/${img}" "../results/${tmp}_64.${format}" 64;
 	./ex10 "../imageSamples/${img}" "../results/${tmp}_128.${format}" 128;
